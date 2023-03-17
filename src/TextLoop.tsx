@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactFragment, ReactPortal } from "react";
+import React, { ReactNode } from "react";
 import {
   TransitionMotion,
   spring,
@@ -10,7 +10,7 @@ import { isEqual } from "./isEqual";
 import { requestTimeout, clearRequestTimeout, RequestTimeout } from "./utils";
 
 type Props = {
-  children?: (string | JSX.Element)[] | undefined;
+  children?: ReactNode[] | undefined;
   interval: number | number[];
   delay: number;
   adjustingSpeed: number;
@@ -22,12 +22,12 @@ type Props = {
   mask: boolean;
   noWrap: boolean;
   className?: string;
-  onChange?: Function;
+  onChange?: () => void;
 };
 
 type State = {
-  elements: (ReactChild | ReactFragment | ReactPortal)[];
-  currentEl: ReactChild | ReactFragment | ReactPortal;
+  elements: ReactNode[];
+  currentEl: ReactNode;
   currentWordIndex: number;
   wordCount: number;
   currentInterval: number;
@@ -189,7 +189,7 @@ class TextLoop extends React.Component<Props, State> {
     return this.props.fade ? 0 : 1;
   }
 
-  getDimensions(): ClientRect | DOMRect | { width: 0; height: 0 } {
+  getDimensions(): DOMRect | { width: 0; height: 0 } {
     if (this.wordBox == null) {
       return {
         width: 0,
